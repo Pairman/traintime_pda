@@ -32,7 +32,7 @@ class _ScoreWindowState extends State<ScoreWindow> {
 
   void dataInit() {
     scoreSession = ScoreSession();
-    scoreList = session.getScore();
+    scoreList = scoreSession.getScore();
   }
 
   @override
@@ -55,7 +55,7 @@ class _ScoreWindowState extends State<ScoreWindow> {
               }),
             );
           } else {
-            if (session.isScoreListCacheUsed) {
+            if (scoreSession.isScoreListCacheUsed) {
               showToast(
                 context: context,
                 msg: "已显示缓存成绩信息",
