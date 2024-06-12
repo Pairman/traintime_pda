@@ -29,5 +29,5 @@ jobs:
           prerelease: false
           token: ${{ secrets.RELEASE_TOKEN }}
           files: |
-            TraintimePDA_Android/app-*-release.apk,
-            TraintimePDA_Android/app-release.aab
+            TraintimePDA_Android/flutter-apk/app-*-release.apk
+            TraintimePDA_Android/bundle/release/app-release.aab
