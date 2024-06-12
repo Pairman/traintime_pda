@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          .flutter/bin/flutter build apk --target-platform=android-arm64 --split-per-abi --no-shrink --no-sign
+          .flutter/bin/flutter build apk --target-platform=android-arm64 --split-per-abi
 
       - name: Upload
         uses: actions/upload-artifact@v4.3.1
