@@ -1,0 +1,29 @@
+name: Build for Windows
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build_windows:
+    runs-on: windows-latest
+    steps:
+        - name: Install Flutter
+        - uses: actions/checkout@v4
+          run: |
+            git submodule update --init --recursive
+
+        - name: Build
+          run: |
+            .flutter/bin/flutter.bat build windows --release
+
+        - name: Package
+          run: 7z a -r -sse "..\..\..\..\..\build\app\watermeter-windows-release-amd64.zip" *
+          working-directory: build\windows\x64\runner\Release
+
+        - name: Upload
+          uses: actions/upload-artifact@v4
+          with:
+            name: Watermeter_Windows
+            path: |
+              build/app/watermeter-windows-release-*.zip
