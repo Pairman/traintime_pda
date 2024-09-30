@@ -110,7 +110,7 @@ class SliderCaptchaClientProvider {
       return null;
     }
 
-    var bbox = findAlphaBoundingBox(piece);
+    var bbox = _findAlphaBoundingBox(piece);
     var xL = bbox[0] + border,
         yT = bbox[1] + border,
         xR = bbox[2] - border,
@@ -119,11 +119,11 @@ class SliderCaptchaClientProvider {
     var widthW = xR - xL, heightW = yB - yT, lenW = widthW * heightW;
     var widthG = puzzle.width - piece.width + widthW - 1;
 
-    var meanT = calculateMean(piece, xL, yT, widthW, heightW);
-    var templateN = normalizeImage(piece, xL, yT, widthW, heightW, meanT);
+    var meanT = _calculateMean(piece, xL, yT, widthW, heightW);
+    var templateN = _normalizeImage(piece, xL, yT, widthW, heightW, meanT);
     var colsW = [
       for (var x = xL + 1; x < widthG + 1; ++x)
-        calculateSum(puzzle, x, yT, 1, heightW)
+        _calculateSum(puzzle, x, yT, 1, heightW)
     ];
     var colsWL = colsW.iterator, colsWR = colsW.iterator;
     double sumW = 0;
@@ -141,7 +141,7 @@ class SliderCaptchaClientProvider {
       colsWR.moveNext();
       sumW = sumW - colsWL.current + colsWR.current;
       var ncc =
-          calculateNCC(puzzle, x, yT, widthW, heightW, templateN, sumW / lenW);
+          _calculateNCC(puzzle, x, yT, widthW, heightW, templateN, sumW / lenW);
       if (ncc > nccMax) {
         nccMax = ncc;
         xMax = x;
@@ -178,7 +178,7 @@ class SliderCaptchaClientProvider {
 
   static double _calculateMean(
       img.Image image, int x, int y, int width, int height) {
-    return calculateSum(image, x, y, width, height) / width / height;
+    return _calculateSum(image, x, y, width, height) / width / height;
   }
 
   static List<double> _normalizeImage(
