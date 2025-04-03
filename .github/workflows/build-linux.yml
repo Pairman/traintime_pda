@@ -1,0 +1,37 @@
+name: Build for Linux
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  build_deb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Set up toolchains
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential clang ninja-build
+          sudo apt install -y libgtk-3-dev
+
+      - name: Set up Flutter & dependencies
+        run: |
+          git submodule update --init --recursive
+          .flutter/bin/flutter config --no-analytics
+          .flutter/bin/flutter pub get
+
+      - name: Build for Linux
+        run: |
+          .flutter/bin/flutter build linux --release
+          7z a -r "build/app/watermeter-linux-release-amd64.zip" *
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          if-no-files-found: error
+          name: dist_android
+          path: |
+            build/app/watermeter-linux-release-amd64.zip
