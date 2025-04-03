@@ -200,11 +200,12 @@ class SliderCaptchaClientProvider {
       for (var xx = x; xx < x + width; xx++) {
         iT.moveNext();
         var w = window.getPixel(xx, yy).luminance - meanW;
+
         sumWt += w * iT.current;
         sumWw += w * w;
       }
     }
-    return sumWt / sumWw;
+    return sumWt / (sumWw + 0.000001);
   }
 }
 
